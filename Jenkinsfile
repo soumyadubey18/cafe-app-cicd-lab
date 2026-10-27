@@ -1,13 +1,23 @@
+
 pipeline {
     agent any
+
     options {
         timestamps()
         disableConcurrentBuilds()
     }
+
+    environment {
+        DOCKER_IMAGE = 'soumyadubey18/cafe-app'
+    }
+
     stages {
         stage('Checkout') {
-            steps { checkout scm }
+            steps {
+                checkout scm
+            }
         }
+
         stage('Validate files') {
             steps {
                 sh '''
@@ -19,20 +29,38 @@ pipeline {
                 '''
             }
         }
+
         stage('Build Docker image') {
             steps {
-                sh 'docker build -t cafe-app:${BUILD_NUMBER} .'
+                sh 'docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} -t ${DOCKER_IMAGE}:latest .'
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKERHUB_USER',
+                    passwordVariable: 'DOCKERHUB_TOKEN'
+                )]) {
+                    sh '''
+                        set +x
+                        echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
+                        docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}
+                        docker push ${DOCKER_IMAGE}:latest
+                        docker logout
+                    '''
+                }
             }
         }
     }
+
     post {
-        success { echo 'CI completed: source checked and Docker image built.' }
-        failure { echo 'Pipeline failed. Review the console output for the failing stage.' }
+        success {
+            echo 'Cafe App image built and pushed to Docker Hub.'
+        }
+        failure {
+            echo 'Pipeline failed. Check Console Output.'
+        }
     }
 }
-
-/*
-Starter CI only: Jenkins needs Docker installed and permission to use it.
-This does not push to Docker Hub or deploy to EKS yet.
-Use Jenkins Credentials for secrets; never hard-code tokens or keys.
-*/
