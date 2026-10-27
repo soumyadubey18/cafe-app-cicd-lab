@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bean & Bloom Cafe</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="hero">
+    <nav class="nav"><a class="brand" href="#">☕ Bean & Bloom</a><a class="nav-link" href="#menu">Our menu</a></nav>
+    <div class="hero-content">
+      <p class="eyebrow">FRESHLY BREWED · MADE WITH CARE</p>
+      <h1>Your little corner<br>of coffee happiness.</h1>
+      <p>Good coffee, warm bakes, and a place to pause.</p>
+      <a class="button" href="#menu">Explore the menu</a>
+    </div>
+  </header>
+  <main>
+    <section class="intro"><p class="eyebrow">HELLO, COFFEE LOVER</p><h2>Simple things, made beautifully.</h2><p>Drop in for your morning cup or stay for a slow afternoon.</p></section>
+    <section class="menu-section" id="menu">
+      <div class="section-heading"><div><p class="eyebrow">A FEW FAVORITES</p><h2>From our menu</h2></div>
+        <label class="search-label" for="menu-search">Find a favorite<input id="menu-search" type="search" placeholder="Search menu…" autocomplete="off"></label>
+      </div>
+      <div class="menu-grid" id="menu-grid">
+        <article class="menu-card" data-name="classic cappuccino coffee"><div class="menu-emoji">☕</div><div class="menu-copy"><h3>Classic Cappuccino</h3><p>Espresso, steamed milk, soft foam.</p><strong>₹160</strong></div></article>
+        <article class="menu-card" data-name="iced vanilla latte coffee"><div class="menu-emoji">🧋</div><div class="menu-copy"><h3>Iced Vanilla Latte</h3><p>Chilled espresso with vanilla milk.</p><strong>₹190</strong></div></article>
+        <article class="menu-card" data-name="masala chai tea"><div class="menu-emoji">🍵</div><div class="menu-copy"><h3>Masala Chai</h3><p>Black tea with warming spices.</p><strong>₹90</strong></div></article>
+        <article class="menu-card" data-name="butter croissant pastry bakery"><div class="menu-emoji">🥐</div><div class="menu-copy"><h3>Butter Croissant</h3><p>Flaky, golden, baked fresh.</p><strong>₹130</strong></div></article>
+        <article class="menu-card" data-name="chocolate brownie dessert"><div class="menu-emoji">🍫</div><div class="menu-copy"><h3>Chocolate Brownie</h3><p>Rich chocolate with a fudgy center.</p><strong>₹140</strong></div></article>
+        <article class="menu-card" data-name="grilled veggie sandwich lunch"><div class="menu-emoji">🥪</div><div class="menu-copy"><h3>Grilled Veggie Sandwich</h3><p>Toasted bread, vegetables, herbed spread.</p><strong>₹210</strong></div></article>
+      </div>
+      <p class="empty-state" id="empty-state" hidden>No items match that search. Try another word.</p>
+    </section>
+  </main>
+  <footer><p><strong>Bean & Bloom Cafe</strong> · Made for our DevOps learning project</p><p>Demo menu only — prices are examples.</p></footer>
+</body>
+</html>
