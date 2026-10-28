@@ -8,7 +8,6 @@
   --white: #ffffff;
 }
 
-/* Reset and base styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -35,7 +34,7 @@ button {
   cursor: pointer;
 }
 
-/* Header */
+/* HEADER */
 .header {
   background: var(--dark);
   color: var(--white);
@@ -59,7 +58,6 @@ button {
   color: var(--accent);
 }
 
-/* Navigation */
 nav {
   display: flex;
   gap: 20px;
@@ -70,14 +68,13 @@ nav {
 nav a {
   color: white;
   text-decoration: none;
-  transition: color 0.2s ease;
 }
 
 nav a:hover {
   color: var(--accent);
 }
 
-/* Buttons */
+/* BUTTONS */
 .cart-button,
 .primary-button {
   display: inline-block;
@@ -88,16 +85,14 @@ nav a:hover {
   padding: 11px 16px;
   font-weight: 700;
   text-decoration: none;
-  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .cart-button:hover,
 .primary-button:hover {
   background: #f2bd80;
-  transform: translateY(-1px);
 }
 
-/* Hero section */
+/* HERO */
 .hero {
   min-height: 350px;
   padding: 65px 7%;
@@ -133,7 +128,7 @@ nav a:hover {
   margin-bottom: 25px;
 }
 
-/* Menu and About sections */
+/* SECTIONS */
 .menu-section,
 .about-section {
   padding: 55px 7%;
@@ -153,7 +148,7 @@ nav a:hover {
   color: var(--muted);
 }
 
-/* Search toolbar */
+/* SEARCH */
 .toolbar {
   max-width: 600px;
   margin: 0 auto 22px;
@@ -175,7 +170,7 @@ nav a:hover {
   box-shadow: 0 0 0 3px rgba(111, 64, 39, 0.12);
 }
 
-/* Menu category filters */
+/* CATEGORY FILTERS */
 .filters {
   display: flex;
   justify-content: center;
@@ -193,7 +188,6 @@ nav a:hover {
   padding: 9px 18px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .filter-button:hover,
@@ -207,7 +201,7 @@ nav a:hover {
   background: #f3e5d4;
 }
 
-/* Menu grid */
+/* MENU GRID */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -275,8 +269,6 @@ nav a:hover {
   background: var(--dark);
   color: white;
   font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s ease;
 }
 
 .add-button:hover {
@@ -290,7 +282,7 @@ nav a:hover {
   color: var(--muted);
 }
 
-/* About section */
+/* ABOUT SECTION */
 .about-section {
   background: #f6ecdf;
 }
@@ -331,7 +323,7 @@ nav a:hover {
   color: var(--muted);
 }
 
-/* Footer */
+/* FOOTER */
 .footer {
   padding: 32px 7%;
   background: var(--dark);
@@ -350,7 +342,7 @@ nav a:hover {
   font-size: 0.9rem;
 }
 
-/* Shopping cart dialog */
+/* SHOPPING CART */
 .cart-dialog {
   width: min(520px, calc(100% - 32px));
   max-height: 85vh;
@@ -399,7 +391,6 @@ nav a:hover {
   background: var(--dark);
   color: white;
   font-size: 1.1rem;
-  cursor: pointer;
 }
 
 .quantity-controls button:hover {
@@ -432,14 +423,14 @@ nav a:hover {
   color: var(--coffee);
 }
 
-/* Tablet layout */
+/* TABLET */
 @media (max-width: 1000px) {
   .menu-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* Mobile layout */
+/* MOBILE */
 @media (max-width: 600px) {
   .header {
     padding: 16px 5%;
