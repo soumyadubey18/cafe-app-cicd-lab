@@ -1,39 +1,670 @@
-<!doctype html>
+```html
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bean & Bloom Cafe</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#25170f">
+  <title>Bean & Brew | Cafe</title>
+  <style>
+    :root {
+      --coffee: #6f4027;
+      --dark: #25170f;
+      --cream: #fff8ed;
+      --accent: #e6a15a;
+      --muted: #796d63;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--dark);
+      color: var(--white);
+      padding: 18px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .cart-button,
+    .primary-button {
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .hero {
+      min-height: 340px;
+      padding: 65px 7%;
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(90deg, rgba(37,23,15,.96), rgba(37,23,15,.68)),
+        radial-gradient(circle at 80% 40%, #b77a43, #3c2519 65%);
+      color: white;
+    }
+
+    .hero-content {
+      max-width: 650px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.3rem, 6vw, 4.4rem);
+      line-height: 1.12;
+      margin: 12px 0 18px;
+    }
+
+    .hero p {
+      max-width: 530px;
+      color: #f2e4d5;
+      margin-bottom: 24px;
+    }
+
+    section {
+      padding: 55px 7%;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      margin-bottom: 5px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+    }
+
+    .toolbar {
+      max-width: 900px;
+      margin: 0 auto 28px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .toolbar input {
+      flex: 1;
+      min-width: 220px;
+      max-width: 420px;
+      padding: 12px 14px;
+      border: 1px solid #ded1c3;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .filter-button {
+      background: white;
+      border: 1px solid #e1d2c2;
+      padding: 9px 15px;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    .filter-button.active,
+    .filter-button:hover {
+      background: var(--coffee);
+      color: white;
+      border-color: var(--coffee);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+    }
+
+    .menu-card {
+      background: white;
+      border: 1px solid #eee2d5;
+      border-radius: 14px;
+      padding: 23px;
+      box-shadow: 0 5px 18px rgba(50, 30, 15, 0.05);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(50, 30, 15, 0.12);
+    }
+
+    .menu-emoji {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    .menu-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+
+    .menu-card p {
+      min-height: 48px;
+      font-size: .92rem;
+      color: var(--muted);
+    }
+
+    .menu-bottom {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .price {
+      font-weight: 800;
+      color: var(--coffee);
+      font-size: 1.1rem;
+    }
+
+    .add-button {
+      background: var(--coffee);
+      color: white;
+      border: none;
+      border-radius: 7px;
+      padding: 9px 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .add-button:hover {
+      background: var(--dark);
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 30px;
+      color: var(--muted);
+      grid-column: 1 / -1;
+    }
+
+    .about {
+      background: #f0e2d1;
+      text-align: center;
+    }
+
+    .about p {
+      max-width: 700px;
+      margin: 10px auto;
+      color: #5f5045;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .info-card {
+      background: rgba(255,255,255,.7);
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    footer {
+      background: var(--dark);
+      color: #f2e4d5;
+      text-align: center;
+      padding: 25px 7%;
+    }
+
+    footer p + p {
+      color: #c8b6a4;
+      font-size: .9rem;
+      margin-top: 5px;
+    }
+
+    dialog {
+      width: min(500px, calc(100% - 24px));
+      max-height: 85vh;
+      overflow-y: auto;
+      margin: auto;
+      border: none;
+      border-radius: 15px;
+      padding: 24px;
+      color: var(--dark);
+    }
+
+    dialog::backdrop {
+      background: rgba(0,0,0,.6);
+    }
+
+    .cart-header,
+    .cart-row,
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cart-header {
+      margin-bottom: 18px;
+    }
+
+    .cart-row {
+      padding: 12px 0;
+      border-bottom: 1px solid #eee2d5;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .quantity-controls button {
+      width: 28px;
+      height: 28px;
+      border: 1px solid #d9c7b5;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .cart-total {
+      padding: 20px 0;
+      font-weight: 800;
+      font-size: 1.15rem;
+    }
+
+    .cart-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .secondary-button {
+      background: #eee2d5;
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      padding: 11px 15px;
+      cursor: pointer;
+    }
+
+    .notice {
+      margin-top: 12px;
+      color: var(--coffee);
+      font-size: .9rem;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 16px 5%;
+      }
+
+      nav {
+        gap: 12px;
+      }
+
+      .hero {
+        padding: 50px 5%;
+      }
+
+      section {
+        padding: 42px 5%;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <header class="hero">
-    <nav class="nav"><a class="brand" href="#">☕ Bean & Bloom</a><a class="nav-link" href="#menu">Our menu</a></nav>
-    <div class="hero-content">
-      <p class="eyebrow">FRESHLY BREWED · MADE WITH CARE</p>
-      <h1>Your little corner<br>of coffee happiness.</h1>
-      <p>Good coffee, warm bakes, and a place to pause.</p>
-      <a class="button" href="#menu">Explore the menu</a>
-    </div>
+  <header>
+    <a class="logo" href="#home" style="color:white;text-decoration:none">
+      BEAN <span>&</span> BREW
+    </a>
+
+    <nav aria-label="Main navigation">
+      <a href="#home">Home</a>
+      <a href="#menu">Menu</a>
+      <a href="#about">About</a>
+      <button class="cart-button" id="open-cart" type="button">
+        🛒 Cart (<span id="cart-count">0</span>)
+      </button>
+    </nav>
   </header>
+
   <main>
-    <section class="intro"><p class="eyebrow">HELLO, COFFEE LOVER</p><h2>Simple things, made beautifully.</h2><p>Drop in for your morning cup or stay for a slow afternoon.</p></section>
-    <section class="menu-section" id="menu">
-      <div class="section-heading"><div><p class="eyebrow">A FEW FAVORITES</p><h2>From our menu</h2></div>
-        <label class="search-label" for="menu-search">Find a favorite<input id="menu-search" type="search" placeholder="Search menu…" autocomplete="off"></label>
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <p class="eyebrow">Freshly brewed, always</p>
+        <h1>Your daily dose of happiness.</h1>
+        <p>
+          From bold espresso to comforting chai and delicious treats,
+          find your next favorite at Bean & Brew.
+        </p>
+        <a class="primary-button" href="#menu" style="display:inline-block;text-decoration:none">
+          Explore Our Menu ☕
+        </a>
       </div>
-      <div class="menu-grid" id="menu-grid">
-        <article class="menu-card" data-name="classic cappuccino coffee"><div class="menu-emoji">☕</div><div class="menu-copy"><h3>Classic Cappuccino</h3><p>Espresso, steamed milk, soft foam.</p><strong>₹200</strong></div></article>
-        <article class="menu-card" data-name="iced vanilla latte coffee"><div class="menu-emoji">🧋</div><div class="menu-copy"><h3>Iced Vanilla Latte</h3><p>Chilled espresso with vanilla milk.</p><strong>₹190</strong></div></article>
-        <article class="menu-card" data-name="masala chai tea"><div class="menu-emoji">🍵</div><div class="menu-copy"><h3>Black Coffee</h3><p>Black coffee with warming spices.</p><strong>₹90</strong></div></article>
-        <article class="menu-card" data-name="butter croissant pastry bakery"><div class="menu-emoji">🥐</div><div class="menu-copy"><h3>Butter Croissant</h3><p>Flaky, golden, baked fresh.</p><strong>₹130</strong></div></article>
-        <article class="menu-card" data-name="chocolate brownie dessert"><div class="menu-emoji">🍫</div><div class="menu-copy"><h3>Chocolate Brownie</h3><p>Rich chocolate with a fudgy center.</p><strong>₹140</strong></div></article>
-        <article class="menu-card" data-name="grilled veggie sandwich lunch"><div class="menu-emoji">🥪</div><div class="menu-copy"><h3>Grilled Veggie Sandwich</h3><p>Toasted bread, vegetables, herbed spread.</p><strong>₹210</strong></div></article>
+    </section>
+
+    <section id="menu">
+      <div class="section-heading">
+        <p class="eyebrow">Made with love</p>
+        <h2>Our Menu</h2>
+        <p>Good coffee, delicious bites, and happy moments.</p>
       </div>
-      <p class="empty-state" id="empty-state" hidden>No items match that search. Try another word.</p>
+
+      <div class="toolbar">
+        <input id="search-input" type="search"
+          placeholder="Search coffee, tea, desserts..."
+          aria-label="Search menu">
+      </div>
+
+      <div class="filters" aria-label="Menu categories">
+        <button class="filter-button active" data-category="All">All</button>
+        <button class="filter-button" data-category="Coffee">Coffee</button>
+        <button class="filter-button" data-category="Tea">Tea</button>
+        <button class="filter-button" data-category="Desserts">Desserts</button>
+      </div>
+
+      <div class="menu-grid" id="menu-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="section-heading">
+        <h2>A Little About Us</h2>
+        <p>Your neighborhood coffee corner.</p>
+      </div>
+      <p>
+        At Bean & Brew, we believe the best moments happen over a good cup
+        of coffee. Whether you're working, catching up with friends, or
+        taking a quiet break, there's always a place for you here.
+      </p>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>☕ Fresh Drinks</h3>
+          <p>Prepared fresh for every order.</p>
+        </div>
+        <div class="info-card">
+          <h3>🍰 Sweet Treats</h3>
+          <p>A little something to brighten your day.</p>
+        </div>
+        <div class="info-card">
+          <h3>💛 Cozy Moments</h3>
+          <p>Your happy place for every coffee break.</p>
+        </div>
+      </div>
     </section>
   </main>
-  <footer><p><strong>Bean & Bloom Cafe</strong> · Made for our DevOps learning project</p><p>Demo menu only — prices are examples.</p></footer>
+
+  <footer>
+    <p><strong>BEAN & BREW</strong> ☕</p>
+    <p>Made with love, served with a smile.</p>
+    <p>© <span id="year"></span> Bean & Brew Cafe</p>
+  </footer>
+
+  <dialog id="cart-dialog" aria-labelledby="cart-title">
+    <div class="cart-header">
+      <h2 id="cart-title">Your Cart 🛒</h2>
+      <button class="secondary-button" id="close-cart" type="button">Close</button>
+    </div>
+
+    <div id="cart-items"></div>
+
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cart-total">₹0</span>
+    </div>
+
+    <div class="cart-actions">
+      <button class="primary-button" id="checkout-button" type="button">
+        Place Demo Order
+      </button>
+      <button class="secondary-button" id="clear-cart" type="button">
+        Clear Cart
+      </button>
+    </div>
+    <p class="notice" id="cart-notice" role="status"></p>
+  </dialog>
+
+  <script>
+    const menu = [
+      { id: 1, name: "Espresso", category: "Coffee", price: 80, emoji: "☕", description: "A bold, rich shot of freshly brewed coffee." },
+      { id: 2, name: "Cappuccino", category: "Coffee", price: 120, emoji: "☕", description: "Espresso topped with silky steamed milk foam." },
+      { id: 3, name: "Cafe Latte", category: "Coffee", price: 140, emoji: "🥛", description: "Smooth espresso blended with creamy milk." },
+      { id: 4, name: "Cold Coffee", category: "Coffee", price: 150, emoji: "🧋", description: "Chilled, creamy coffee for a refreshing break." },
+      { id: 5, name: "Black Coffee", category: "Coffee", price: 90, emoji: "🖤", description: "Black coffee with warming spices." },
+      { id: 6, name: "Masala Chai", category: "Tea", price: 40, emoji: "🍵", description: "Classic Indian tea with aromatic spices." },
+      { id: 7, name: "Green Tea", category: "Tea", price: 60, emoji: "🍃", description: "A light, soothing cup of green tea." },
+      { id: 8, name: "Hot Chocolate", category: "Coffee", price: 130, emoji: "🍫", description: "Rich chocolate goodness in every sip." },
+      { id: 9, name: "Chocolate Brownie", category: "Desserts", price: 100, emoji: "🍫", description: "A soft, fudgy chocolate brownie." },
+      { id: 10, name: "Blueberry Muffin", category: "Desserts", price: 90, emoji: "🧁", description: "A soft muffin with sweet blueberry bites." },
+      { id: 11, name: "Chocolate Cake", category: "Desserts", price: 140, emoji: "🍰", description: "A delicious slice of chocolate cake." },
+      { id: 12, name: "Butter Croissant", category: "Desserts", price: 110, emoji: "🥐", description: "A flaky, golden, buttery pastry." }
+    ];
+
+    const cart = {};
+    let activeCategory = "All";
+
+    const menuGrid = document.getElementById("menu-grid");
+    const searchInput = document.getElementById("search-input");
+    const cartDialog = document.getElementById("cart-dialog");
+
+    function renderMenu() {
+      const search = searchInput.value.trim().toLowerCase();
+
+      const filtered = menu.filter(item => {
+        const matchesCategory =
+          activeCategory === "All" || item.category === activeCategory;
+        const matchesSearch =
+          item.name.toLowerCase().includes(search) ||
+          item.description.toLowerCase().includes(search);
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        menuGrid.innerHTML =
+          '<p class="empty-message">No items found. Try another search.</p>';
+        return;
+      }
+
+      menuGrid.innerHTML = filtered.map(item => `
+        <article class="menu-card">
+          <div class="menu-emoji" aria-hidden="true">${item.emoji}</div>
+          <h3>${item.name}</h3>
+          <p>${item.description}</p>
+          <div class="menu-bottom">
+            <span class="price">₹${item.price}</span>
+            <button class="add-button" data-add="${item.id}" type="button">
+              + Add
+            </button>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderCart() {
+      const entries = Object.values(cart);
+      const count = entries.reduce((sum, item) => sum + item.quantity, 0);
+      const total = entries.reduce(
+        (sum, item) => sum + item.price * item.quantity, 0
+      );
+
+      document.getElementById("cart-count").textContent = count;
+      document.getElementById("cart-total").textContent = `₹${total}`;
+
+      const cartItems = document.getElementById("cart-items");
+
+      if (entries.length === 0) {
+        cartItems.innerHTML = '<p>Your cart is empty. Add something tasty!</p>';
+        return;
+      }
+
+      cartItems.innerHTML = entries.map(item => `
+        <div class="cart-row">
+          <div>
+            <strong>${item.name}</strong>
+            <div>₹${item.price} × ${item.quantity}</div>
+          </div>
+          <div class="quantity-controls">
+            <button data-minus="${item.id}" aria-label="Remove one ${item.name}" type="button">−</button>
+            <span>${item.quantity}</span>
+            <button data-plus="${item.id}" aria-label="Add one ${item.name}" type="button">+</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function addToCart(id) {
+      const item = menu.find(product => product.id === id);
+      if (!item) return;
+
+      if (!cart[id]) {
+        cart[id] = { ...item, quantity: 0 };
+      }
+
+      cart[id].quantity++;
+      document.getElementById("cart-notice").textContent =
+        `${item.name} added to your cart.`;
+      renderCart();
+    }
+
+    function changeQuantity(id, amount) {
+      if (!cart[id]) return;
+
+      cart[id].quantity += amount;
+      if (cart[id].quantity <= 0) {
+        delete cart[id];
+      }
+
+      document.getElementById("cart-notice").textContent = "";
+      renderCart();
+    }
+
+    menuGrid.addEventListener("click", event => {
+      const button = event.target.closest("[data-add]");
+      if (button) addToCart(Number(button.dataset.add));
+    });
+
+    document.getElementById("cart-items").addEventListener("click", event => {
+      const plus = event.target.closest("[data-plus]");
+      const minus = event.target.closest("[data-minus]");
+
+      if (plus) changeQuantity(Number(plus.dataset.plus), 1);
+      if (minus) changeQuantity(Number(minus.dataset.minus), -1);
+    });
+
+    searchInput.addEventListener("input", renderMenu);
+
+    document.querySelector(".filters").addEventListener("click", event => {
+      const button = event.target.closest("[data-category]");
+      if (!button) return;
+
+      activeCategory = button.dataset.category;
+      document.querySelectorAll(".filter-button").forEach(filter => {
+        filter.classList.toggle("active", filter === button);
+      });
+      renderMenu();
+    });
+
+    document.getElementById("open-cart").addEventListener("click", () => {
+      renderCart();
+      cartDialog.showModal();
+    });
+
+    document.getElementById("close-cart").addEventListener("click", () => {
+      cartDialog.close();
+    });
+
+    document.getElementById("clear-cart").addEventListener("click", () => {
+      Object.keys(cart).forEach(id => delete cart[id]);
+      document.getElementById("cart-notice").textContent = "Cart cleared.";
+      renderCart();
+    });
+
+    document.getElementById("checkout-button").addEventListener("click", () => {
+      if (Object.keys(cart).length === 0) {
+        document.getElementById("cart-notice").textContent =
+          "Your cart is empty. Add an item first.";
+        return;
+      }
+
+      document.getElementById("cart-notice").textContent =
+        "Demo order complete! No payment was taken.";
+      Object.keys(cart).forEach(id => delete cart[id]);
+      renderCart();
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    renderMenu();
+    renderCart();
+  </script>
 </body>
 </html>
+```
