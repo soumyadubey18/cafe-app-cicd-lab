@@ -1,6 +1,7 @@
-```javascript
+
 "use strict";
 
+/* MENU DATA */
 const menu = [
   {
     id: 1,
@@ -100,25 +101,36 @@ const menu = [
   }
 ];
 
+/* APPLICATION STATE */
 const cart = new Map();
 let activeCategory = "All";
 
+/* HTML ELEMENTS */
 const menuGrid = document.getElementById("menu-grid");
 const searchInput = document.getElementById("search-input");
 const cartDialog = document.getElementById("cart-dialog");
 const cartItems = document.getElementById("cart-items");
 const cartNotice = document.getElementById("cart-notice");
+const filters = document.querySelector(".filters");
 
+/* RENDER MENU */
 function renderMenu() {
+  if (!menuGrid || !searchInput) {
+    console.error("Menu elements are missing from index.html.");
+    return;
+  }
+
   const search = searchInput.value.trim().toLowerCase();
 
   const filtered = menu.filter(item => {
     const matchesCategory =
-      activeCategory === "All" || item.category === activeCategory;
+      activeCategory === "All" ||
+      item.category === activeCategory;
 
     const matchesSearch =
       item.name.toLowerCase().includes(search) ||
-      item.description.toLowerCase().includes(search);
+      item.description.toLowerCase().includes(search) ||
+      item.category.toLowerCase().includes(search);
 
     return matchesCategory && matchesSearch;
   });
@@ -136,14 +148,17 @@ function renderMenu() {
       <p>${item.description}</p>
       <div class="menu-bottom">
         <span class="price">₹${item.price}</span>
-        <button class="add-button" data-add="${item.id}" type="button">
-          + Add
-        </button>
+        <button
+          class="add-button"
+          data-add="${item.id}"
+          type="button"
+        >+ Add</button>
       </div>
     </article>
   `).join("");
 }
 
+/* ADD ITEM TO CART */
 function addToCart(id) {
   const item = menu.find(product => product.id === id);
   if (!item) return;
@@ -156,10 +171,14 @@ function addToCart(id) {
     cart.set(id, { ...item, quantity: 1 });
   }
 
-  cartNotice.textContent = `${item.name} added to your cart.`;
+  if (cartNotice) {
+    cartNotice.textContent = `${item.name} added to your cart.`;
+  }
+
   renderCart();
 }
 
+/* CHANGE QUANTITY */
 function changeQuantity(id, amount) {
   const item = cart.get(id);
   if (!item) return;
@@ -170,23 +189,39 @@ function changeQuantity(id, amount) {
     cart.delete(id);
   }
 
-  cartNotice.textContent = "";
+  if (cartNotice) {
+    cartNotice.textContent = "";
+  }
+
   renderCart();
 }
 
+/* RENDER CART */
 function renderCart() {
   const entries = Array.from(cart.values());
 
   const count = entries.reduce(
-    (sum, item) => sum + item.quantity, 0
+    (sum, item) => sum + item.quantity,
+    0
   );
 
   const total = entries.reduce(
-    (sum, item) => sum + item.price * item.quantity, 0
+    (sum, item) => sum + item.price * item.quantity,
+    0
   );
 
-  document.getElementById("cart-count").textContent = count;
-  document.getElementById("cart-total").textContent = `₹${total}`;
+  const countElement = document.getElementById("cart-count");
+  const totalElement = document.getElementById("cart-total");
+
+  if (countElement) {
+    countElement.textContent = count;
+  }
+
+  if (totalElement) {
+    totalElement.textContent = `₹${total}`;
+  }
+
+  if (!cartItems) return;
 
   if (entries.length === 0) {
     cartItems.innerHTML =
@@ -204,74 +239,131 @@ function renderCart() {
         <button
           data-minus="${item.id}"
           aria-label="Remove one ${item.name}"
-          type="button">−</button>
+          type="button"
+        >−</button>
         <span>${item.quantity}</span>
         <button
           data-plus="${item.id}"
           aria-label="Add one ${item.name}"
-          type="button">+</button>
+          type="button"
+        >+</button>
       </div>
     </div>
   `).join("");
 }
 
-menuGrid.addEventListener("click", event => {
-  const button = event.target.closest("[data-add]");
-  if (button) addToCart(Number(button.dataset.add));
-});
-
-cartItems.addEventListener("click", event => {
-  const plus = event.target.closest("[data-plus]");
-  const minus = event.target.closest("[data-minus]");
-
-  if (plus) changeQuantity(Number(plus.dataset.plus), 1);
-  if (minus) changeQuantity(Number(minus.dataset.minus), -1);
-});
-
-searchInput.addEventListener("input", renderMenu);
-
-document.querySelector(".filters").addEventListener("click", event => {
-  const button = event.target.closest("[data-category]");
-  if (!button) return;
-
-  activeCategory = button.dataset.category;
-
-  document.querySelectorAll(".filter-button").forEach(filter => {
-    filter.classList.toggle("active", filter === button);
+/* MENU BUTTON EVENTS */
+if (menuGrid) {
+  menuGrid.addEventListener("click", event => {
+    const button = event.target.closest("[data-add]");
+    if (button) {
+      addToCart(Number(button.dataset.add));
+    }
   });
+}
 
-  renderMenu();
-});
+/* CART QUANTITY EVENTS */
+if (cartItems) {
+  cartItems.addEventListener("click", event => {
+    const plus = event.target.closest("[data-plus]");
+    const minus = event.target.closest("[data-minus]");
 
-document.getElementById("open-cart").addEventListener("click", () => {
-  renderCart();
-  cartDialog.showModal();
-});
+    if (plus) {
+      changeQuantity(Number(plus.dataset.plus), 1);
+    }
 
-document.getElementById("close-cart").addEventListener("click", () => {
-  cartDialog.close();
-});
+    if (minus) {
+      changeQuantity(Number(minus.dataset.minus), -1);
+    }
+  });
+}
 
-document.getElementById("clear-cart").addEventListener("click", () => {
-  cart.clear();
-  cartNotice.textContent = "Cart cleared.";
-  renderCart();
-});
+/* SEARCH */
+if (searchInput) {
+  searchInput.addEventListener("input", renderMenu);
+}
 
-document.getElementById("checkout-button").addEventListener("click", () => {
-  if (cart.size === 0) {
-    cartNotice.textContent = "Your cart is empty. Add an item first.";
-    return;
-  }
+/* CATEGORY FILTERS */
+if (filters) {
+  filters.addEventListener("click", event => {
+    const button = event.target.closest("[data-category]");
+    if (!button) return;
 
-  cart.clear();
-  cartNotice.textContent =
-    "Demo order complete! No payment was taken.";
-  renderCart();
-});
+    activeCategory = button.dataset.category;
 
-document.getElementById("year").textContent = new Date().getFullYear();
+    document.querySelectorAll(".filter-button").forEach(filter => {
+      filter.classList.toggle("active", filter === button);
+    });
 
+    renderMenu();
+  });
+}
+
+/* OPEN CART */
+const openCartButton = document.getElementById("open-cart");
+
+if (openCartButton && cartDialog) {
+  openCartButton.addEventListener("click", () => {
+    renderCart();
+    cartDialog.showModal();
+  });
+}
+
+/* CLOSE CART */
+const closeCartButton = document.getElementById("close-cart");
+
+if (closeCartButton && cartDialog) {
+  closeCartButton.addEventListener("click", () => {
+    cartDialog.close();
+  });
+}
+
+/* CLEAR CART */
+const clearCartButton = document.getElementById("clear-cart");
+
+if (clearCartButton) {
+  clearCartButton.addEventListener("click", () => {
+    cart.clear();
+
+    if (cartNotice) {
+      cartNotice.textContent = "Cart cleared.";
+    }
+
+    renderCart();
+  });
+}
+
+/* DEMO CHECKOUT */
+const checkoutButton = document.getElementById("checkout-button");
+
+if (checkoutButton) {
+  checkoutButton.addEventListener("click", () => {
+    if (cart.size === 0) {
+      if (cartNotice) {
+        cartNotice.textContent =
+          "Your cart is empty. Add an item first.";
+      }
+      return;
+    }
+
+    cart.clear();
+
+    if (cartNotice) {
+      cartNotice.textContent =
+        "Demo order complete! No payment was taken.";
+    }
+
+    renderCart();
+  });
+}
+
+/* FOOTER YEAR */
+const yearElement = document.getElementById("year");
+
+if (yearElement) {
+  yearElement.textContent = new Date().getFullYear();
+}
+
+/* INITIALIZE APPLICATION */
 renderMenu();
 renderCart();
-```
