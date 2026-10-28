@@ -1,5 +1,164 @@
 
-/* Search field */
+:root {
+  --coffee: #6f4027;
+  --dark: #25170f;
+  --cream: #fff8ed;
+  --accent: #e6a15a;
+  --muted: #796d63;
+  --white: #ffffff;
+}
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  line-height: 1.6;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Header */
+.header {
+  background: var(--dark);
+  color: var(--white);
+  padding: 18px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
+/* Buttons */
+.cart-button,
+.primary-button {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--dark);
+  border: none;
+  border-radius: 8px;
+  padding: 11px 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.cart-button:hover,
+.primary-button:hover {
+  background: #f2bd80;
+  transform: translateY(-1px);
+}
+
+/* Hero section */
+.hero {
+  min-height: 350px;
+  padding: 65px 7%;
+  display: flex;
+  align-items: center;
+  color: white;
+  background:
+    radial-gradient(circle at 80% 30%, #98633d, transparent 40%),
+    linear-gradient(120deg, #25170f, #56351f);
+}
+
+.hero-content {
+  max-width: 660px;
+}
+
+.eyebrow {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.hero h1 {
+  font-size: clamp(2.3rem, 6vw, 4.3rem);
+  line-height: 1.12;
+  margin: 12px 0 18px;
+}
+
+.hero p:not(.eyebrow) {
+  max-width: 530px;
+  color: #f2e4d5;
+  margin-bottom: 25px;
+}
+
+/* Menu and About sections */
+.menu-section,
+.about-section {
+  padding: 55px 7%;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.section-heading h2 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  margin-bottom: 5px;
+}
+
+.section-heading p:not(.eyebrow) {
+  color: var(--muted);
+}
+
+/* Search toolbar */
+.toolbar {
+  max-width: 600px;
+  margin: 0 auto 22px;
+}
+
 .toolbar input {
   display: block;
   width: 100%;
@@ -34,6 +193,7 @@
   padding: 9px 18px;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .filter-button:hover,
@@ -43,7 +203,11 @@
   color: white;
 }
 
-/* Menu cards */
+.secondary-button:hover {
+  background: #f3e5d4;
+}
+
+/* Menu grid */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -112,6 +276,7 @@
   color: white;
   font-weight: 700;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 .add-button:hover {
@@ -196,6 +361,7 @@
   background: var(--cream);
   color: var(--dark);
   box-shadow: 0 20px 70px rgba(0, 0, 0, 0.25);
+  overflow-y: auto;
 }
 
 .cart-dialog::backdrop {
@@ -234,6 +400,10 @@
   color: white;
   font-size: 1.1rem;
   cursor: pointer;
+}
+
+.quantity-controls button:hover {
+  background: var(--coffee);
 }
 
 .cart-total {
