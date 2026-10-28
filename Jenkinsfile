@@ -46,21 +46,32 @@ pipeline {
                     sh '''
                         set +x
                         echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
+
                         docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}
                         docker push ${DOCKER_IMAGE}:latest
+
                         docker logout
                     '''
                 }
+            }
+        }
+
+        stage('Trigger CD Job') {
+            steps {
+                build job: 'CD-Job-CafeApp',
+                      wait: true,
+                      propagate: true
             }
         }
     }
 
     post {
         success {
-            echo 'Cafe App image built and pushed to Docker Hub.'
+            echo 'Cafe App image built, pushed, and deployed successfully.'
         }
+
         failure {
-            echo 'Pipeline failed. Check Console Output.'
+            echo 'CI/CD pipeline failed. Check Console Output.'
         }
     }
 }
